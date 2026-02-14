@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าหลัก - ระบบจัดการห้องเช่าอพาร์ตเมนต์</title>
+    <meta name="description" content="หน้าหลักระบบจัดการห้องเช่าอพาร์ตเมนต์">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --g1: #0a1628;
+            --g2: #1a2d50;
+            --g3: #274472;
+            --g4: #3a6098;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', 'Segoe UI', Tahoma, sans-serif;
+            background: #050f1e;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== Premium Background (Stars, Moon, Mountains) ===== */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg,
+                    #050f1e 0%,
+                    #0a1628 15%,
+                    #1a2d50 30%,
+                    #274472 50%,
+                    #3a6098 65%,
+                    #5b8ec2 80%,
+                    #93b8d9 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .moon {
+            position: fixed;
+            top: 10%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #e8f5e9, #c8e6c9);
+            border-radius: 50%;
+            z-index: -1;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 60px rgba(200, 230, 201, 0.2);
+        }
+
+        .mountains {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Adjustments for Content */
+        .main-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .navbar-brand .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .navbar-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .navbar-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 8px;
+        }
+
+        .nav-user-name {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        .nav-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--g4), var(--g3));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .logout-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s;
+        }
+
+        .logout-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== Main ===== */
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px 60px;
+            min-height: calc(100vh - 64px);
+        }
+
+        /* ===== Index Card ===== */
+        .index-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 580px;
+            overflow: hidden;
+            animation: cardSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--g1), var(--g2), var(--g3));
+            padding: 32px 32px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -10%;
+            width: 120%;
+            height: 60px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .card-header h1 {
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 16px 32px 32px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            color: var(--g2);
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid #d0e4f7;
+        }
+
+        .welcome-text h2 {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* ===== Menu ===== */
+        .menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, var(--g3), var(--g2));
+            color: white;
+            text-decoration: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 3px 12px rgba(26, 45, 80, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .menu-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 20px rgba(26, 45, 80, 0.4);
+        }
+
+        .menu-item:hover::before {
+            left: 100%;
+        }
+
+        .menu-item .menu-icon {
+            font-size: 22px;
+            width: 30px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .menu-item .menu-text {
+            flex: 1;
+        }
+
+        .menu-item .menu-arrow {
+            font-size: 14px;
+            opacity: 0.6;
+            transition: transform 0.3s;
+        }
+
+        .menu-item:hover .menu-arrow {
+            transform: translateX(4px);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .card-footer {
+            text-align: center;
+            padding: 0 32px 24px;
+            color: #9ca3af;
+            font-size: 11px;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 18px;
+            margin: 0 32px;
+        }
+
+        /* ===== Share/QR Section ===== */
+        .share-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 14px;
+            border: 1px dashed #cbd5e1;
+            text-align: center;
+        }
+
+        .share-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--g2);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 8px;
+        }
+
+        .qr-container img {
+            display: block;
+            width: 120px;
+            height: 120px;
+        }
+
+        .share-url {
+            font-size: 11px;
+            color: #64748b;
+            word-break: break-all;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 16px;
+            }
+
+            .navbar-brand span {
+                display: none;
+            }
+
+            .navbar-links a {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .nav-user-name {
+                display: none;
+            }
+
+            .main-content {
+                padding: 24px 12px 40px;
+            }
+
+            .card-header {
+                padding: 24px 20px 20px;
+            }
+
+            .card-body {
+                padding: 12px 20px 24px;
+            }
+
+            .card-footer {
+                margin: 0 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== Premium Background ===== -->
+    <div class="hero-bg"></div>
+    <div class="stars" id="starField"></div>
+    <div class="moon"></div>
+    <svg class="mountains" viewBox="0 0 1440 400" preserveAspectRatio="none">
+        <path
+            d="M0,400 L0,280 L120,180 L200,220 L320,120 L420,200 L500,140 L600,190 L720,80 L840,160 L920,100 L1040,180 L1120,130 L1200,170 L1320,90 L1440,200 L1440,400 Z"
+            fill="rgba(10,22,40,0.4)" />
+        <path
+            d="M0,400 L0,300 L80,250 L180,290 L280,200 L380,260 L480,180 L560,240 L680,160 L780,220 L880,170 L980,230 L1080,190 L1160,240 L1280,180 L1360,230 L1440,260 L1440,400 Z"
+            fill="rgba(26,45,80,0.5)" />
+        <path
+            d="M0,400 L0,330 L100,290 L200,320 L300,260 L400,300 L520,240 L620,280 L740,230 L820,270 L920,240 L1020,280 L1140,250 L1240,290 L1340,260 L1440,300 L1440,400 Z"
+            fill="rgba(39,68,114,0.7)" />
+    </svg>
+
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon">🏠</div>
+            <span>Apartment</span>
+        </a>
+        <div class="navbar-links">
+            <a href="welcome.html">Welcome</a>
+            <a href="index.html" class="active">Home</a>
+            <a href="tenant.html">Tenants</a>
+            <a href="payment.html">Payment</a>
+            <a href="share.html" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">📱
+                Mobile</a>
+            <div class="nav-links" style="margin-left: 15px;">
+                <a href="login.html"
+                    style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4);">🚪 Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== Main ===== -->
+    <div class="main-content">
+        <div class="index-card">
+            <div class="card-header">
+                <h1>🏠 ระบบจัดการห้องเช่าอพาร์ตเมนต์</h1>
+            </div>
+
+            <div class="card-body">
+                <div class="welcome-text">
+                    <h2>✨ ยินดีต้อนรับเข้าสู่ระบบ</h2>
+                </div>
+
+                <div class="menu">
+                    <a href="tenant.html" class="menu-item">
+                        <span class="menu-icon">👥</span>
+                        <span class="menu-text">จัดการข้อมูลผู้เช่า</span>
+                        <span class="menu-arrow">→</span>
+                    </a>
+                    <a href="owner.html" class="menu-item">
+                        <span class="menu-icon">🏢</span>
+                        <span class="menu-text">การจัดการข้อมูลเจ้าของอพาร์ตเมนต์</span>
+                        <span class="menu-arrow">→</span>
+                    </a>
+                    <a href="contract2.html" class="menu-item">
+                        <span class="menu-icon">📄</span>
+                        <span class="menu-text">สัญญาเช่า</span>
+                        <span class="menu-arrow">→</span>
+                    </a>
+                    <a href="payment.html" class="menu-item">
+                        <span class="menu-icon">💰</span>
+                        <span class="menu-text">ชำระเงิน</span>
+                        <span class="menu-arrow">→</span>
+                    </a>
+                    <div class="divider" style="display: flex; align-items: center; gap: 14px; margin: 30px 0 20px;">
+                        <span style="font-size: 13px; color: #9ca3af; white-space: nowrap;">📱 Mobile Access</span>
+                        <div style="flex: 1; height: 1px; background: #e5e7eb;"></div>
+                    </div>
+
+                    <div class="qr-section"
+                        style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 20px; border: 1px solid #e2e8f0;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://65015669-ctrl.github.io/WELCOME-TO-OUR-APARTMENT/"
+                            alt="QR Code"
+                            style="width: 140px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                        <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">
+                            สแกนเพื่อเข้าถึงหน้าเดโมนี้บนมือถือ</p>
+                        <a href="https://65015669-ctrl.github.io/WELCOME-TO-OUR-APARTMENT/" target="_blank"
+                            style="font-size: 11px; color: var(--g3); text-decoration: none; word-break: break-all; opacity: 0.8;">
+                            https://65015669-ctrl.github.io/WELCOME-TO-OUR-APARTMENT/
+                        </a>
+                    </div>
+
+                    <div class="card-footer"
+                        style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #f1f5f9; color: #9ca3af; font-size: 11px;">
+                        © 2026 ระบบจัดการห้องเช่าอพาร์ตเมนต์ (Static Demo)
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                // Star generating script
+                const starField = document.getElementById('starField');
+                if (starField) {
+                    for (let i = 0; i < 100; i++) {
+                        const star = document.createElement('div');
+                        star.className = 'star';
+                        const x = Math.random() * 100;
+                        const y = Math.random() * 100;
+                        const size = Math.random() * 2 + 1;
+                        const delay = Math.random() * 5;
+                        star.style.left = x + '%';
+                        star.style.top = y + '%';
+                        star.style.width = size + 'px';
+                        star.style.height = size + 'px';
+                        star.style.animationDelay = delay + 's';
+                        starField.appendChild(star);
+                    }
+                }
+            </script>
+</body>
+
+</html>

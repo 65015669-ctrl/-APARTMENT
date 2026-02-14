@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สัญญาเช่า - ระบบจัดการห้องเช่า (Demo)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --g1: #0a1628;
+            --g2: #1a2d50;
+            --g3: #274472;
+            --g4: #3a6098;
+            --g5: #5b8ec2;
+            --g6: #93b8d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: #050f1e;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #050f1e 0%, #1a2d50 100%);
+            z-index: -2;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 0 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 20px;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 10px;
+            padding-right: 20px;
+            overflow-x: auto;
+        }
+
+        .navbar-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .navbar-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .navbar-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== Content ===== */
+        .page-header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .box h3 {
+            margin-bottom: 20px;
+            color: var(--g2);
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--g3);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero-bg"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">🏠 <span>Apartment</span></a>
+        <div class="navbar-links">
+            <a href="welcome.html">Welcome</a>
+            <a href="index.html">Home</a>
+            <a href="tenant.html">Tenants</a>
+            <a href="payment.html">Payment</a>
+            <a href="share.html">📱 Mobile</a>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>📄 ระบบจัดการสัญญาเช่า</h1>
+    </div>
+
+    <div class="wrap">
+        <div class="box">
+            <h3>📝 ทำสัญญาเช่าใหม่ (Demo)</h3>
+            <form onsubmit="event.preventDefault(); alert('บันทึกสัญญาสำเร็จ');">
+                <div class="form-group">
+                    <label>เลือกผู้เช่า</label>
+                    <select>
+                        <option>สมชาย มั่นคง (ห้อง 101)</option>
+                        <option>สมหญิง สดใส (ห้อง 202)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>📅 วันที่เริ่มสัญญา</label>
+                    <input type="date">
+                </div>
+                <div class="form-group">
+                    <label>💰 ค่าเช่าต่อเดือน</label>
+                    <input type="number" placeholder="5500">
+                </div>
+                <button type="submit" class="btn-submit">✅ ยืนยันทำสัญญา</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

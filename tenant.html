@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลผู้เช่า</title>
+    <style>
+        :root {
+            --g1: #0a1628;
+            --g2: #1a2d50;
+            --g3: #274472;
+            --g4: #3a6098;
+            --g5: #5b8ec2;
+            --g6: #93b8d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', 'Segoe UI', Tahoma, sans-serif;
+            background: #050f1e;
+            min-height: 100vh;
+            color: white;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .navbar-brand .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .navbar-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .navbar-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* ===== Premium Background (Stars, Moon, Mountains) ===== */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #050f1e 0%, #0a1628 15%, #1a2d50 30%, #274472 50%, #3a6098 65%, #5b8ec2 80%, #93b8d9 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .moon {
+            position: fixed;
+            top: 10%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #e8f5e9, #c8e6c9);
+            border-radius: 50%;
+            z-index: -1;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 60px rgba(200, 230, 201, 0.2);
+        }
+
+        .mountains {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Update existing styles */
+        .hd {
+            color: #fff;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hist {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hd h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px
+        }
+
+        .wrap {
+            display: flex;
+            gap: 25px;
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 15px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .box {
+            flex: 1;
+            min-width: 300px;
+            width: 100%;
+            max-width: 520px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .25)
+        }
+
+        .box h3 {
+            color: var(--g2);
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--g4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            font-weight: 600;
+            color: #333;
+            font-size: 13px
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--g3);
+            box-shadow: 0 0 0 3px rgba(39, 68, 114, .15)
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--g3), var(--g2));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(26, 45, 80, .4);
+            transition: all 0.3s
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 45, 80, .5)
+        }
+
+        .msg {
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px
+        }
+
+        .msg.success {
+            background: var(--g3);
+            color: #fff
+        }
+
+        .msg.error {
+            background: #e53935;
+            color: #fff
+        }
+
+        .hist {
+            max-width: 900px;
+            margin: 25px auto;
+            padding: 0 15px
+        }
+
+        .hist .box {
+            max-width: 100%;
+            min-width: auto
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 10px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #bdc3c7
+        }
+
+        th {
+            background: var(--g2);
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px
+        }
+
+        td {
+            color: #333;
+            font-size: 14px
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc
+        }
+
+        tr:hover td {
+            background: #e3f2fd;
+            color: var(--g2);
+            cursor: default
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 12px 20px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer
+        }
+
+        .nav-btn.prev {
+            background: linear-gradient(135deg, #78909c, #546e7a);
+            color: #fff
+        }
+
+        .nav-btn.prev:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px rgba(84, 110, 122, 0.4)
+        }
+
+        .nav-btn.home {
+            background: linear-gradient(135deg, var(--g3), var(--g2));
+            color: #fff
+        }
+
+        .nav-btn.home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 45, 80, 0.5)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #42a5f5, #1e88e5);
+            color: #fff
+        }
+
+        .nav-btn.next:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.4)
+        }
+
+        .nav-btn.disabled {
+            background: #e0e0e0;
+            color: #9e9e9e;
+            cursor: not-allowed;
+            pointer-events: none
+        }
+
+        .nav-info {
+            text-align: center;
+            color: #666;
+            font-size: 12px
+        }
+
+        .nav-info strong {
+            color: var(--g2)
+        }
+    </style>
+</head>
+<!-- ===== Premium Background ===== -->
+<div class="hero-bg"></div>
+<div class="stars" id="starField"></div>
+<div class="moon"></div>
+<svg class="mountains" viewBox="0 0 1440 400" preserveAspectRatio="none">
+    <path
+        d="M0,400 L0,280 L120,180 L200,220 L320,120 L420,200 L500,140 L600,190 L720,80 L840,160 L920,100 L1040,180 L1120,130 L1200,170 L1320,90 L1440,200 L1440,400 Z"
+        fill="rgba(10,22,40,0.4)" />
+    <path
+        d="M0,400 L0,300 L80,250 L180,290 L280,200 L380,260 L480,180 L560,240 L680,160 L780,220 L880,170 L980,230 L1080,190 L1160,240 L1280,180 L1360,230 L1440,260 L1440,400 Z"
+        fill="rgba(26,45,80,0.5)" />
+    <path
+        d="M0,400 L0,330 L100,290 L200,320 L300,260 L400,300 L520,240 L620,280 L740,230 L820,270 L920,240 L1020,280 L1140,250 L1240,290 L1340,260 L1440,300 L1440,400 Z"
+        fill="rgba(39,68,114,0.7)" />
+</svg>
+
+<!-- ===== Navbar ===== -->
+<nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+        <div class="logo-icon">🏠</div>
+        <span>Apartment</span>
+    </a>
+    <div class="navbar-links">
+        <a href="welcome.html">Welcome</a>
+        <a href="index.html">Home</a>
+        <a href="tenant.html" class="active">Tenants</a>
+        <a href="payment.html">Payment</a>
+        <a href="share.html" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">📱
+            Mobile</a>
+        <div class="nav-links" style="margin-left: 15px;">
+            <a href="login.html"
+                style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4);">🚪 Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="hd">
+    <h2>👥 ระบบจัดการผู้เช่า</h2>
+</div>
+
+<div class="wrap">
+    <div class="box">
+        <h3>📝 เพิ่มผู้เช่าใหม่</h3>
+
+        <form>
+            <label>ชื่อ-นามสกุล</label>
+            <input type="text" placeholder="กรอกชื่อ-นามสกุล" required>
+
+            <label>เลขบัตรประชาชน</label>
+            <input type="text" maxlength="13" placeholder="กรอกเลข 13 หลัก" required>
+
+            <label>เบอร์โทรศัพท์</label>
+            <input type="text" placeholder="กรอกเบอร์โทรศัพท์" required>
+
+            <label>เลขห้อง</label>
+            <input type="text" placeholder="เช่น 101, 202" required>
+
+            <label>ประเภทห้อง</label>
+            <select required>
+                <option value="">-- เลือกประเภทห้อง --</option>
+                <option value="ห้องเดี่ยว">🛏️ เตียงเดี่ยว</option>
+                <option value="ห้องคู่">🛋️ เตียงคู่</option>
+            </select>
+
+            <button type="button">💾 บันทึกข้อมูล (Demo)</button>
+        </form>
+    </div>
+</div>
+
+<div class="hist">
+    <div class="box">
+        <h3>📋 รายชื่อผู้เช่าทั้งหมด</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>รหัส</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>เลขบัตรประชาชน</th>
+                        <th>เบอร์โทร</th>
+                        <th>ห้อง</th>
+                        <th>ประเภท</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>สมชาย มั่นคง</td>
+                        <td>1234567890123</td>
+                        <td>081-234-5678</td>
+                        <td>101</td>
+                        <td>ห้องเดี่ยว</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>สมหญิง สดใส</td>
+                        <td>9876543210987</td>
+                        <td>089-876-5432</td>
+                        <td>202</td>
+                        <td>ห้องคู่</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Star generating script
+    const starField = document.getElementById('starField');
+    if (starField) {
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 2 + 1;
+            const delay = Math.random() * 5;
+            star.style.left = x + '%';
+            star.style.top = y + '%';
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animationDelay = delay + 's';
+            starField.appendChild(star);
+        }
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก - ระบบจัดการห้องเช่า (Demo)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --g1: #0a1628;
+            --g2: #1a2d50;
+            --g3: #274472;
+            --g4: #3a6098;
+            --g5: #5b8ec2;
+            --g6: #93b8d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', 'Segoe UI', Tahoma, sans-serif;
+            background: #050f1e;
+            min-height: 100vh;
+            color: white;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== Premium Background ===== */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #050f1e 0%, #0a1628 15%, #1a2d50 30%, #274472 50%, #3a6098 65%, #5b8ec2 80%, #93b8d9 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .moon {
+            position: fixed;
+            top: 10%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #e8f5e9, #c8e6c9);
+            border-radius: 50%;
+            z-index: -1;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 60px rgba(200, 230, 201, 0.2);
+        }
+
+        .mountains {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .navbar-brand .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .navbar-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        /* ===== Main ===== */
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px 60px;
+            min-height: calc(100vh - 64px);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== Card ===== */
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            animation: cardSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--g1), var(--g2), var(--g3));
+            padding: 32px 32px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-body {
+            padding: 16px 32px 32px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: var(--g3);
+            box-shadow: 0 0 0 4px rgba(39, 68, 114, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--g3), var(--g2));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: var(--g2);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 16px;
+            }
+
+            .navbar-brand span {
+                display: none;
+            }
+
+            .navbar-links a {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero-bg"></div>
+    <div class="stars" id="starField"></div>
+    <div class="moon"></div>
+    <svg class="mountains" viewBox="0 0 1440 400" preserveAspectRatio="none">
+        <path
+            d="M0,400 L0,280 L120,180 L200,220 L320,120 L420,200 L500,140 L600,190 L720,80 L840,160 L920,100 L1040,180 L1120,130 L1200,170 L1320,90 L1440,200 L1440,400 Z"
+            fill="rgba(10,22,40,0.4)" />
+    </svg>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon">🏠</div>
+            <span>Apartment</span>
+        </a>
+        <div class="navbar-links">
+            <a href="welcome.html">Welcome</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="active">Register</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h1>สมัครสมาชิก (Demo)</h1>
+            </div>
+
+            <div class="card-body">
+                <form
+                    onsubmit="event.preventDefault(); alert('สมัครสมาชิกสำเร็จ (หน้าจำลอง)'); window.location.href='login.html';">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-input" placeholder="กรอกชื่อผู้ใช้" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" placeholder="ชื่อ-นามสกุลจริง" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" placeholder="กำหนดรหัสผ่าน" required>
+                    </div>
+                    <button type="submit" class="btn-submit">📝 สมัครสมาชิก</button>
+                </form>
+
+                <div class="login-link">
+                    <span>มีบัญชีอยู่แล้ว? </span>
+                    <a href="login.html">เข้าสู่ระบบที่นี่</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const starField = document.getElementById('starField');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 2 + 1;
+            const delay = Math.random() * 5;
+            star.style.left = x + '%';
+            star.style.top = y + '%';
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animationDelay = delay + 's';
+            starField.appendChild(star);
+        }
+    </script>
+</body>
+
+</html>

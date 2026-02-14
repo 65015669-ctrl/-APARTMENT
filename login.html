@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - ระบบจัดการห้องเช่า (Demo)</title>
+    <meta name="description" content="เข้าสู่ระบบจัดการห้องเช่าอพาร์ตเมนต์">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --g1: #0a1628;
+            --g2: #1a2d50;
+            --g3: #274472;
+            --g4: #3a6098;
+            --g5: #5b8ec2;
+            --g6: #93b8d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', 'Segoe UI', Tahoma, sans-serif;
+            background: #050f1e;
+            min-height: 100vh;
+            color: white;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== Premium Background ===== */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #050f1e 0%, #0a1628 15%, #1a2d50 30%, #274472 50%, #3a6098 65%, #5b8ec2 80%, #93b8d9 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .moon {
+            position: fixed;
+            top: 10%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #e8f5e9, #c8e6c9);
+            border-radius: 50%;
+            z-index: -1;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 60px rgba(200, 230, 201, 0.2);
+        }
+
+        .mountains {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Update original Navbar styles for static look */
+        .navbar {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .navbar-brand .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .navbar-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .navbar-links a.active {
+            background: rgba(255, 255, 255, 0.35);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* ===== Main ===== */
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px 20px 60px;
+            min-height: calc(100vh - 64px);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== Login Card ===== */
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 440px;
+            overflow: hidden;
+            animation: cardSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--g1), var(--g2), var(--g3));
+            padding: 36px 32px 28px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -10%;
+            width: 120%;
+            height: 60px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .header-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            margin-bottom: 14px;
+            font-size: 32px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .card-header h1 {
+            color: white;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-body {
+            padding: 20px 32px 32px;
+            color: #333;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            color: #1f2937;
+            background: #f9fafb;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--g3);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(39, 68, 114, 0.1);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .btn-eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #9ca3af;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px 24px;
+            background: linear-gradient(135deg, var(--g3), var(--g2));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 6px;
+            box-shadow: 0 4px 15px rgba(26, 45, 80, 0.3);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 45, 80, 0.45);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 24px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .divider span {
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        .register-link {
+            text-align: center;
+        }
+
+        .register-link a {
+            color: var(--g2);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .card-footer {
+            text-align: center;
+            padding: 8px 32px 20px;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 16px;
+            }
+
+            .navbar-brand span {
+                display: none;
+            }
+
+            .navbar-links a {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .main-content {
+                padding: 24px 12px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== Premium Background ===== -->
+    <div class="hero-bg"></div>
+    <div class="stars" id="starField"></div>
+    <div class="moon"></div>
+    <svg class="mountains" viewBox="0 0 1440 400" preserveAspectRatio="none">
+        <path
+            d="M0,400 L0,280 L120,180 L200,220 L320,120 L420,200 L500,140 L600,190 L720,80 L840,160 L920,100 L1040,180 L1120,130 L1200,170 L1320,90 L1440,200 L1440,400 Z"
+            fill="rgba(10,22,40,0.4)" />
+        <path
+            d="M0,400 L0,300 L80,250 L180,290 L280,200 L380,260 L480,180 L560,240 L680,160 L780,220 L880,170 L980,230 L1080,190 L1160,240 L1280,180 L1360,230 L1440,260 L1440,400 Z"
+            fill="rgba(26,45,80,0.5)" />
+        <path
+            d="M0,400 L0,330 L100,290 L200,320 L300,260 L400,300 L520,240 L620,280 L740,230 L820,270 L920,240 L1020,280 L1140,250 L1240,290 L1340,260 L1440,300 L1440,400 Z"
+            fill="rgba(39,68,114,0.7)" />
+    </svg>
+
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon">🏠</div>
+            <span>Apartment</span>
+        </a>
+        <div class="navbar-links">
+            <a href="welcome.html">Welcome</a>
+            <a href="login.html" class="active">Login</a>
+            <a href="register.html">Register</a>
+            <a href="share.html" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">📱
+                Mobile</a>
+            <div class="navbar-avatar" style="margin-left: 10px;">👤</div>
+        </div>
+    </nav>
+
+    <!-- ===== Main ===== -->
+    <div class="main-content">
+        <div class="login-card">
+            <div class="card-header">
+                <div class="header-icon">🔐</div>
+                <h1>เข้าสู่ระบบ</h1>
+                <p>หน้าเดโมระบบจัดการห้องเช่าอพาร์ตเมนต์</p>
+            </div>
+
+            <div class="card-body">
+                <form onsubmit="event.preventDefault(); window.location.href='welcome.html';">
+                    <div class="form-group">
+                        <label class="form-label"><span>👤</span> Username</label>
+                        <input type="text" class="form-input" placeholder="กรอกชื่อผู้ใช้ (Demo: admin)" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><span>🔒</span> Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" class="form-input"
+                                placeholder="กรอกรหัสผ่าน (Demo: 1234)" required>
+                            <button type="button" class="btn-eye" onclick="togglePwd('password', this)">👁</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span>🔐</span>
+                        <span>เข้าสู่ระบบ (Demo)</span>
+                    </button>
+                </form>
+
+                <div class="divider"><span>ยังไม่มีบัญชี?</span></div>
+
+                <div class="register-link">
+                    <a href="register.html">📝 สมัครสมาชิก</a>
+                </div>
+            </div>
+
+            <div class="card-footer">© 2026 ระบบจัดการห้องเช่าอพาร์ตเมนต์ (Static Demo)</div>
+        </div>
+    </div>
+
+    <script>
+        function togglePwd(id, btn) {
+            const el = document.getElementById(id);
+            if (el.type === 'password') { el.type = 'text'; btn.textContent = '🙈'; }
+            else { el.type = 'password'; btn.textContent = '👁'; }
+        }
+
+        // Star generating script
+        const starField = document.getElementById('starField');
+        if (starField) {
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 2 + 1;
+                const delay = Math.random() * 5;
+                star.style.left = x + '%';
+                star.style.top = y + '%';
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = delay + 's';
+                starField.appendChild(star);
+            }
+        }
+    </script>
+</body>
+
+</html>
